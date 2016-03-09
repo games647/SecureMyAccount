@@ -55,7 +55,12 @@ public class CreateKeyCommand implements CommandExecutor {
         }
 
         try {
-            URL barcodeUrl = new URL(TOTP.getQRBarcodeURL(player.getName(), Bukkit.getIp(), secretKey));
+            String serverIp = plugin.getConfig().getString("serverIp");
+            if (serverIp.isEmpty()) {
+                serverIp = Bukkit.getIp();
+            }
+
+            URL barcodeUrl = new URL(TOTP.getQRBarcodeURL(player.getName(), serverIp, secretKey));
 
             ImageDownloader imageDownloader = new ImageDownloader(plugin, player, barcodeUrl);
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, imageDownloader);

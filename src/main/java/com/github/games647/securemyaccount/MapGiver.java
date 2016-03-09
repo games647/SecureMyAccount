@@ -2,10 +2,12 @@ package com.github.games647.securemyaccount;
 
 import java.awt.image.BufferedImage;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
 public class MapGiver implements Runnable {
@@ -22,11 +24,21 @@ public class MapGiver implements Runnable {
 
     @Override
     public void run() {
-        MapView createdView = plugin.installRenderer(player, resultImage);
+        MapView createdView = installRenderer(player, resultImage);
         //stack count 0 prevents the item from being dropped
         ItemStack mapItem = new ItemStack(Material.MAP, 0, createdView.getId());
         player.getInventory().addItem(mapItem);
         player.sendMessage(ChatColor.DARK_GREEN + "Here is your secret code. Just scan it with your phone");
         player.sendMessage(ChatColor.DARK_GREEN + "Then drop it in order to remove it");
+    }
+
+    private MapView installRenderer(Player player, BufferedImage image) {
+        MapView mapView = Bukkit.createMap(player.getWorld());
+        for (MapRenderer mapRenderer : mapView.getRenderers()) {
+            mapView.removeRenderer(mapRenderer);
+        }
+
+        mapView.addRenderer(new ImageRenderer(player, image));
+        return mapView;
     }
 }

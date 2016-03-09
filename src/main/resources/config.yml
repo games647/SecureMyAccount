@@ -1,0 +1,6 @@
+# SecureMyAccount config
+
+# What text should be displayed next to the player like in the image the server ip: 127.0.0.1
+# http://i.imgur.com/HWNR8SK.png
+# If this is empty the default server ip from the server.properties will be used
+serverIp: ''

@@ -5,6 +5,7 @@ import com.github.games647.securemyaccount.SecureMyAccount;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -16,7 +17,7 @@ public class PreventListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onCommand(PlayerCommandPreprocessEvent commandEvent) {
         Player invoker = commandEvent.getPlayer();
         String command = commandEvent.getMessage().replaceFirst("/", "");
