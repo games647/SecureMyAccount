@@ -21,13 +21,14 @@ computer. This process is also known as 2FA.
 
 ## Commands
 
-* /secureme - Requests a new secret key
-* /session <code> - Starts a new session to prove your identity
+* /register - Requests a new secret key
+* /login <code> - Starts a new session to prove your identity
 
 ## Permissions
 
-* securemyaccount.command.request - Permission to invoke the request command
+* securemyaccount.command.enable - Permission to invoke the request command
 * securemyaccount.command.start - Permission to start a new session
+* securemyaccount.command.protect - Protected player accounts
 
 ## Images
 

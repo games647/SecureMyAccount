@@ -14,10 +14,21 @@ dev-url: ${project.url}
 commands:
     ${project.artifactId}:
         description: 'All relevant 2 factor auth commands'
-        aliases: [2fa, secureme, secure, sec]
-        permission: ${project.artifactId}.command.request
+        aliases: [2fa, secureme, secure, sec, createkey, register]
+        permission: ${project.artifactId}.command.enable
 
     startsession:
         description: 'Starts a two factor auth session to prove your identity'
         aliases: [login, session, sess]
+        usage: /<command> <code>
         permission: ${project.artifactId}.command.start
+
+permissions:
+    ${project.artifactId}.protect:
+        description: 'Player who have this permission have to register'
+
+    ${project.artifactId}.command.start:
+        descirption: 'Command to login'
+
+    ${project.artifactId}.command.enable:
+        descirption: 'Command to enable 2fa authentification'

@@ -1,14 +1,10 @@
 package com.github.games647.securemyaccount.commands;
 
+import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.SecureMyAccount;
 import com.github.games647.securemyaccount.TOTP;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -40,24 +36,24 @@ public class LoginCommand implements CommandExecutor {
     }
 
     private void checkCode(Player player, String code) {
-        File keyStorage = new File(plugin.getDataFolder(), player.getUniqueId().toString());
-        if (!keyStorage.exists()) {
+        Account account = plugin.getOrLoadAccount(player);
+        if (!account.isRegistered()) {
             player.sendMessage(ChatColor.DARK_RED + "You don't have key generated yet");
             return;
         }
 
         try {
-            String firstLine = Files.readFirstLine(keyStorage, Charsets.UTF_8);
-            if (TOTP.checkPassword(firstLine, code)) {
+            if (TOTP.checkPassword(account.getSecretCode(), code)) {
                 player.sendMessage(ChatColor.DARK_GREEN + "Accepted. You can continue");
+
+                account.setIp(player.getAddress().getHostString());
+                plugin.saveAccount(player);
                 plugin.startSession(player);
             } else {
                 player.sendMessage(ChatColor.DARK_RED + "Incorrect password");
             }
-        } catch (IOException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Tried reading secret key", ex);
         } catch (Exception ex) {
-            Logger.getLogger(LoginCommand.class.getName()).log(Level.SEVERE, null, ex);
+            plugin.getLogger().log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -2,12 +2,24 @@ package com.github.games647.securemyaccount.listener;
 
 import com.github.games647.securemyaccount.SecureMyAccount;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class PreventListener implements Listener {
 
@@ -17,13 +29,86 @@ public class PreventListener implements Listener {
         this.plugin = plugin;
     }
 
+    //prevent events before other plugins will notice them (call order is from the lowest to the highest)
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onCommand(PlayerCommandPreprocessEvent commandEvent) {
         Player invoker = commandEvent.getPlayer();
-        String command = commandEvent.getMessage().replaceFirst("/", "");
-        if (command.startsWith("op") && !plugin.isInSession(invoker)) {
-            invoker.sendMessage(ChatColor.DARK_RED + "This action is protected by a password from a second device");
-            invoker.sendMessage(ChatColor.DARK_RED + "Please type /session <code>");
+
+        //remove the command identifier and further command arguments
+        String command = commandEvent.getMessage().replaceFirst("/", "").split(" ")[0];
+        if ("login".equalsIgnoreCase(command) || "register".equalsIgnoreCase(command)) {
+            //ignore our own commands
+            return;
         }
+
+        if (plugin.getConfig().getBoolean("commandOnlyProtection")) {
+            List<String> protectedCommands = plugin.getConfig().getStringList("protectedCommands");
+            if (protectedCommands.isEmpty() || protectedCommands.contains(command)) {
+                if (!plugin.isInSession(invoker)) {
+                    invoker.sendMessage(ChatColor.DARK_RED + "This action is protected for extra security");
+                    invoker.sendMessage(ChatColor.DARK_RED + "Please type /session <code>");
+                    commandEvent.setCancelled(true);
+                }
+            }
+        } else {
+            checkLoginStatus(invoker, commandEvent);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onAsyncPlayerChat(AsyncPlayerChatEvent asyncPlayerChatEvent) {
+        //keep mind that this have to be thread-safe
+        checkLoginStatus(asyncPlayerChatEvent.getPlayer(), asyncPlayerChatEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
+        Location from = playerMoveEvent.getFrom();
+        Location to = playerMoveEvent.getTo();
+
+        if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ()) {
+            checkLoginStatus(playerMoveEvent.getPlayer(), playerMoveEvent);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onBlockPlace(BlockPlaceEvent blockPlaceEvent) {
+        checkLoginStatus(blockPlaceEvent.getPlayer(), blockPlaceEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onBlockBreak(BlockBreakEvent blockBreakEvent) {
+        checkLoginStatus(blockBreakEvent.getPlayer(), blockBreakEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onPlayerInteract(PlayerInteractEvent playerInteractEvent) {
+        checkLoginStatus(playerInteractEvent.getPlayer(), playerInteractEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onItemPickup(PlayerPickupItemEvent pickupItemEvent) {
+        checkLoginStatus(pickupItemEvent.getPlayer(), pickupItemEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onItemDrop(PlayerDropItemEvent dropItemEvent) {
+        checkLoginStatus(dropItemEvent.getPlayer(), dropItemEvent);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onItemDrop(InventoryDragEvent dragEvent) {
+        checkLoginStatus((Player) dragEvent.getWhoClicked(), dragEvent);
+    }
+
+    //this lookup have to be highly optimized, because events like the move event will call this very often
+    private boolean checkLoginStatus(Player player, Cancellable cancelEvent) {
+        //thread-safe
+        if (plugin.getConfig().getBoolean("commandOnlyProtection") || plugin.isInSession(player)) {
+            return true;
+        }
+
+        cancelEvent.setCancelled(true);
+        return false;
     }
 }

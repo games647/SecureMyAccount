@@ -1,6 +1,26 @@
-# SecureMyAccount config
+# ${project.name} config
 
 # What text should be displayed next to the player like in the image the server ip: 127.0.0.1
 # http://i.imgur.com/HWNR8SK.png
 # If this is empty the default server ip from the server.properties will be used
 serverIp: ''
+
+# If the player has the same ip as the previous successfull login
+# the player will be automatically logged in
+ipAutoLogin: true
+
+# By default only players who have the ${project.artifactId}.protect permission have to register and login
+# If this value is true every player has to do it. Otherwise players can optionally enable it.
+protectAll: false
+
+# Should only the specified commands be protected from unauthorized access
+# Other actions like move, chat, block break, ... will be allowed if this is true
+commandOnlyProtection: true
+
+# If command only protection is enabled, these commands are protected. If the list is empty all commands are protected
+protectedCommands:
+    - op
+    - pex
+    - stop
+    - reload
+    - ban

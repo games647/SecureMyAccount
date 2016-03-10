@@ -24,6 +24,10 @@ public class TOTP {
     private static final int TIME_PRECISION = 3;
     private static final String CRYPTO_ALGO = "HmacSHA1";
 
+    private static final String URL_FORMAT = "https://www.google.com/chart?chs=130x130&chld=M%%7C0&cht=qr&chl="
+                + "otpauth://totp/"
+                + "%s@%s%%3Fsecret%%3D%s";
+
     public static String generateSecretKey() {
         // Allocating the buffer
         byte[] buffer = new byte[SCRET_BYTE + SCRATCH_CODES * BYTES_PER_SCRATCH_CODE];
@@ -39,11 +43,8 @@ public class TOTP {
     }
 
     public static String getQRBarcodeURL(String user, String host, String secret) {
-        String format = "https://www.google.com/chart?chs=130x130&chld=M%%7C0&cht=qr&chl="
-                + "otpauth://totp/"
-                + "%s@%s%%3Fsecret%%3D%s";
         Escaper urlEscaper = UrlEscapers.urlFragmentEscaper();
-        return String.format(format, urlEscaper.escape(user), urlEscaper.escape(host), secret);
+        return String.format(URL_FORMAT, urlEscaper.escape(user), urlEscaper.escape(host), secret);
     }
 
     public static boolean checkPassword(String secretKey, String userInput)
