@@ -1,5 +1,9 @@
 #Changelog
 
+##0.3
+
+* Added pin inventory - easier login
+
 ##0.2
 
 * Added config

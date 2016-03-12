@@ -13,7 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -97,8 +97,8 @@ public class PreventListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
-    public void onItemDrop(InventoryDragEvent dragEvent) {
-        checkLoginStatus((Player) dragEvent.getWhoClicked(), dragEvent);
+    public void onInventoryClick(InventoryClickEvent clickEvent) {
+        checkLoginStatus((Player) clickEvent.getWhoClicked(), clickEvent);
     }
 
     //this lookup have to be highly optimized, because events like the move event will call this very often

@@ -2,15 +2,16 @@ package com.github.games647.securemyaccount;
 
 import com.github.games647.securemyaccount.commands.EnableCommand;
 import com.github.games647.securemyaccount.commands.LoginCommand;
+import com.github.games647.securemyaccount.listener.InventoryPinListener;
 import com.github.games647.securemyaccount.listener.PreventListener;
 import com.github.games647.securemyaccount.listener.SessionListener;
-import com.google.common.collect.Lists;
+import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class SecureMyAccount extends JavaPlugin {
 
         //register listeners
         getServer().getPluginManager().registerEvents(new PreventListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryPinListener(this), this);
         getServer().getPluginManager().registerEvents(new SessionListener(this), this);
     }
 
@@ -68,7 +70,7 @@ public class SecureMyAccount extends JavaPlugin {
             File file = new File(getDataFolder(), uniqueId.toString());
             if (file.exists()) {
                 try {
-                    List<String> lines = Files.readAllLines(file.toPath());
+                    List<String> lines = Files.readLines(file, Charsets.UTF_8);
                     String secretCode = lines.get(0);
                     String ip = lines.get(1);
 
@@ -93,9 +95,8 @@ public class SecureMyAccount extends JavaPlugin {
         if (account != null) {
             File file = new File(getDataFolder(), uniqueId.toString());
 
-            List<String> lines = Lists.newArrayList(account.getSecretCode(), account.getIp());
             try {
-                Files.write(file.toPath(), lines);
+                Files.write(account.getSecretCode() + System.lineSeparator() + account.getIp(), file, Charsets.UTF_8);
                 return true;
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "Error saving account", ex);

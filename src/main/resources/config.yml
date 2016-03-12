@@ -13,6 +13,9 @@ ipAutoLogin: true
 # If this value is true every player has to do it. Otherwise players can optionally enable it.
 protectAll: false
 
+# Should a inventory be opened where the player could enter their pin
+inventoryPin: false
+
 # Should only the specified commands be protected from unauthorized access
 # Other actions like move, chat, block break, ... will be allowed if this is true
 commandOnlyProtection: true

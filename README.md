@@ -34,6 +34,7 @@ computer. This process is also known as 2FA.
 
 ![Ingame map QR code](http://i.imgur.com/9YuekuK.png)
 ![App code generation](http://i.imgur.com/HWNR8SK.png)
+![inventory pin](http://i.imgur.com/JCmmMPO.png)
 
 ## Requirements
 
