@@ -49,9 +49,20 @@ public class LoginCommand implements CommandExecutor {
     }
 
     private void checkCode(Player player, String code) {
+        if (plugin.isInSession(player)) {
+            player.sendMessage(ChatColor.DARK_GREEN + "You're already loggedin");
+            return;
+        }
+
         Account account = plugin.getOrLoadAccount(player);
         if (!account.isRegistered()) {
             player.sendMessage(ChatColor.DARK_RED + "You don't have key generated yet");
+            return;
+        }
+
+        String newIp = player.getAddress().getHostString();
+        if (plugin.getConfig().getBoolean("forceSampleIp") && !account.getIp().equals(newIp)) {
+            player.sendMessage(ChatColor.DARK_RED + "You don't have the same IP as last time");
             return;
         }
 
