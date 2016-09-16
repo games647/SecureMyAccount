@@ -104,7 +104,13 @@ public class PreventListener implements Listener {
     //this lookup have to be highly optimized, because events like the move event will call this very often
     private boolean checkLoginStatus(Player player, Cancellable cancelEvent) {
         //thread-safe
-        if (plugin.getConfig().getBoolean("commandOnlyProtection") || plugin.isInSession(player)) {
+        if (plugin.isInSession(player) || plugin.getConfig().getBoolean("commandOnlyProtection")) {
+            return true;
+        }
+
+        if (!plugin.getConfig().getBoolean("protectAll")
+                && !player.hasPermission(plugin.getName().toLowerCase() + ".protect") ) {
+            //we don't need to protect this player
             return true;
         }
 

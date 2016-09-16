@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
 public class MapGiver implements Runnable {
@@ -34,9 +33,7 @@ public class MapGiver implements Runnable {
 
     private MapView installRenderer(Player player, BufferedImage image) {
         MapView mapView = Bukkit.createMap(player.getWorld());
-        for (MapRenderer mapRenderer : mapView.getRenderers()) {
-            mapView.removeRenderer(mapRenderer);
-        }
+        mapView.getRenderers().forEach(mapView::removeRenderer);
 
         mapView.addRenderer(new ImageRenderer(player, image));
         return mapView;

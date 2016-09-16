@@ -33,6 +33,7 @@ public class SecureMyAccount extends JavaPlugin {
         //register commands
         getCommand(getName().toLowerCase()).setExecutor(new EnableCommand(this));
         getCommand("startsession").setExecutor(new LoginCommand(this));
+        getCommand("unregister").setExecutor(new LoginCommand(this));
 
         //register listeners
         getServer().getPluginManager().registerEvents(new PreventListener(this), this);

@@ -20,15 +20,29 @@ commands:
     startsession:
         description: 'Starts a two factor auth session to prove your identity'
         aliases: [login, session, sess]
-        usage: /<command> <code>
+        usage: /<command> [code]
         permission: ${project.artifactId}.command.start
+
+    unregister:
+        description: 'Reset the account of yourself or others'
+        aliases: [resetpin]
+        usage: /<command> [player]
+        permission: ${project.artifactId}.command.reset
 
 permissions:
     ${project.artifactId}.protect:
         description: 'Player who have this permission have to register'
 
     ${project.artifactId}.command.start:
-        descirption: 'Command to login'
+        description: 'Command to login'
 
     ${project.artifactId}.command.enable:
-        descirption: 'Command to enable 2fa authentification'
+        description: 'Command to enable 2fa authentification'
+
+    ${project.artifactId}.command.reset:
+        description: 'Command to reset 2fa authentification'
+
+    ${project.artifactId}.command.reset.others:
+        description: 'Command to reset 2fa authentification of other players'
+        children:
+            ${project.artifactId}.command.reset: true
