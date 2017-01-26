@@ -5,21 +5,17 @@ import com.github.games647.securemyaccount.commands.LoginCommand;
 import com.github.games647.securemyaccount.listener.InventoryPinListener;
 import com.github.games647.securemyaccount.listener.PreventListener;
 import com.github.games647.securemyaccount.listener.SessionListener;
-import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.Files;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.logging.Level;
 
 public class SecureMyAccount extends JavaPlugin {
 
@@ -68,10 +64,10 @@ public class SecureMyAccount extends JavaPlugin {
         UUID uniqueId = player.getUniqueId();
         Account account = cache.get(uniqueId);
         if (account == null) {
-            File file = new File(getDataFolder(), uniqueId.toString());
-            if (file.exists()) {
+            Path file = getDataFolder().toPath().resolve(uniqueId.toString());
+            if (Files.exists(file)) {
                 try {
-                    List<String> lines = Files.readLines(file, Charsets.UTF_8);
+                    List<String> lines = Files.readAllLines(file);
                     String secretCode = lines.get(0);
                     String ip = lines.get(1);
 
@@ -94,10 +90,10 @@ public class SecureMyAccount extends JavaPlugin {
         UUID uniqueId = player.getUniqueId();
         Account account = cache.get(uniqueId);
         if (account != null) {
-            File file = new File(getDataFolder(), uniqueId.toString());
-
+            Path file = getDataFolder().toPath().resolve(uniqueId.toString());
             try {
-                Files.write(account.getSecretCode() + System.lineSeparator() + account.getIp(), file, Charsets.UTF_8);
+                ArrayList<String> list = Lists.newArrayList(account.getSecretCode(), account.getIp());
+                Files.write(file, list);
                 return true;
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "Error saving account", ex);
