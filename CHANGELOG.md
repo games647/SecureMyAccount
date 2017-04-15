@@ -1,6 +1,6 @@
-#Changelog
+# Changelog
 
-##0.3
+## 0.3
 
 * Added pin inventory - easier login
 * Fixed Java 7 support
@@ -8,7 +8,7 @@
 * Added force same ip property
 * Fixed correct auth check for player who doesn't enabled authentication
 
-##0.2
+## 0.2
 
 * Added config
 * Added server ip config property
@@ -19,6 +19,6 @@
 * Added /register alias for a new account
 * Added /createkey alias for a new account
 
-##0.1
+## 0.1
 
 * First release
