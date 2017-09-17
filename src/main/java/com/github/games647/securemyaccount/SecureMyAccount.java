@@ -8,14 +8,19 @@ import com.github.games647.securemyaccount.listener.SessionListener;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
+
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class SecureMyAccount extends JavaPlugin {
 

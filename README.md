@@ -37,9 +37,9 @@ securemyaccount.command.protect | Protected player accounts
 
 ## Images
 
-![Ingame map QR code](http://i.imgur.com/9YuekuK.png)
-![App code generation](http://i.imgur.com/HWNR8SK.png)
-![inventory pin](http://i.imgur.com/JCmmMPO.png)
+![Ingame map QR code](https://i.imgur.com/9YuekuK.png)
+![App code generation](https://i.imgur.com/HWNR8SK.png)
+![inventory pin](https://i.imgur.com/JCmmMPO.png)
 
 ## Requirements
 
@@ -61,4 +61,4 @@ For example:
 * [Android](https://play.google.com/store/apps/details?id=com.authy.authy)
 
 #### Microsoft Authenticator
-* [Windows (Phone)](http://www.windowsphone.com/en-us/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b)
+* [Windows (Phone)](https://www.windowsphone.com/en-us/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b)
