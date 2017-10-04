@@ -2,7 +2,6 @@ package com.github.games647.securemyaccount.commands;
 
 import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.SecureMyAccount;
-import com.github.games647.securemyaccount.TOTP;
 
 import java.util.logging.Level;
 
@@ -67,7 +66,7 @@ public class LoginCommand implements CommandExecutor {
         }
 
         try {
-            if (TOTP.checkPassword(account.getSecretCode(), code)) {
+            if (plugin.getTotp().checkPassword(account.getSecretCode(), code)) {
                 InventoryView openInventory = player.getOpenInventory();
                 if (openInventory.getType() == InventoryType.PLAYER) {
                     openInventory.close();

@@ -12,7 +12,6 @@ import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +25,8 @@ public class SecureMyAccount extends JavaPlugin {
 
     private final Set<UUID> sessions = Sets.newConcurrentHashSet();
     private final Map<UUID, Account> cache = Maps.newConcurrentMap();
+
+    private final TOTP totp = new TOTP();
 
     @Override
     public void onEnable() {
@@ -46,6 +47,10 @@ public class SecureMyAccount extends JavaPlugin {
     public void onDisable() {
         sessions.clear();
         cache.clear();
+    }
+
+    public TOTP getTotp() {
+        return totp;
     }
 
     //thread-safe
@@ -97,8 +102,7 @@ public class SecureMyAccount extends JavaPlugin {
         if (account != null) {
             Path file = getDataFolder().toPath().resolve(uniqueId.toString());
             try {
-                ArrayList<String> list = Lists.newArrayList(account.getSecretCode(), account.getIp());
-                Files.write(file, list);
+                Files.write(file, Lists.newArrayList(account.getSecretCode(), account.getIp()));
                 return true;
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "Error saving account", ex);

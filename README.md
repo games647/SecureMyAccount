@@ -1,7 +1,5 @@
 # SecureMyAccount
 
-[![Build Status](https://travis-ci.org/games647/SecureMyAccount.svg?branch=master)](https://travis-ci.org/games647/SecureMyAccount)
-
 Visit the plugin page [here](https://dev.bukkit.org/bukkit-plugins/securemyaccount/).
 
 Inspired by GitHub and Google, here is a Bukkit plugin to use two factor authentication. Your Mojang/Minecraft

@@ -3,7 +3,6 @@ package com.github.games647.securemyaccount.commands;
 import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.ImageDownloader;
 import com.github.games647.securemyaccount.SecureMyAccount;
-import com.github.games647.securemyaccount.TOTP;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,7 +43,7 @@ public class EnableCommand implements CommandExecutor {
             return;
         }
 
-        String secretKey = TOTP.generateSecretKey();
+        String secretKey = plugin.getTotp().generateSecretKey();
         account.setSecretCode(secretKey);
         account.setIp(player.getAddress().getHostString());
         if (!plugin.saveAccount(player)) {
@@ -58,9 +57,9 @@ public class EnableCommand implements CommandExecutor {
                 serverIp = Bukkit.getIp();
             }
 
-            URL barcodeUrl = new URL(TOTP.getQRBarcodeURL(player.getName(), serverIp, secretKey));
+            URL barcodeUrl = new URL(plugin.getTotp().getQRBarcodeURL(player.getName(), serverIp, secretKey));
 
-            ImageDownloader imageDownloader = new ImageDownloader(plugin, player, barcodeUrl);
+            Runnable imageDownloader = new ImageDownloader(plugin, player, barcodeUrl);
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, imageDownloader);
             player.sendMessage(ChatColor.DARK_GREEN + "Queued generation of your secret key");
         } catch (MalformedURLException ex) {

@@ -9,14 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapView;
 
-public class MapGiver implements Runnable {
+class MapGiver implements Runnable {
 
-    private final SecureMyAccount plugin;
     private final Player player;
     private final BufferedImage resultImage;
 
-    public MapGiver(SecureMyAccount plugin, Player player, BufferedImage resultImage) {
-        this.plugin = plugin;
+    public MapGiver(Player player, BufferedImage resultImage) {
         this.player = player;
         this.resultImage = resultImage;
     }

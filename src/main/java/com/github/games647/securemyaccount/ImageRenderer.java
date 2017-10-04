@@ -8,7 +8,7 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
-public class ImageRenderer extends MapRenderer {
+class ImageRenderer extends MapRenderer {
 
     private final UUID forPlayer;
     private BufferedImage image;

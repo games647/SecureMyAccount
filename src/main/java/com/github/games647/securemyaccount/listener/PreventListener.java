@@ -3,9 +3,11 @@ package com.github.games647.securemyaccount.listener;
 import com.github.games647.securemyaccount.SecureMyAccount;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -13,15 +15,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class PreventListener implements Listener {
+
+    private final Pattern slashRemover = Pattern.compile("/");
 
     private final SecureMyAccount plugin;
 
@@ -35,7 +39,7 @@ public class PreventListener implements Listener {
         Player invoker = commandEvent.getPlayer();
 
         //remove the command identifier and further command arguments
-        String command = commandEvent.getMessage().replaceFirst("/", "").split(" ")[0];
+        String command = slashRemover.matcher(commandEvent.getMessage()).replaceFirst("").split(" ")[0];
         if ("login".equalsIgnoreCase(command) || "register".equalsIgnoreCase(command)) {
             //ignore our own commands
             return;
@@ -87,8 +91,11 @@ public class PreventListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
-    public void onItemPickup(PlayerPickupItemEvent pickupItemEvent) {
-        checkLoginStatus(pickupItemEvent.getPlayer(), pickupItemEvent);
+    public void onItemPickup(EntityPickupItemEvent pickupItemEvent) {
+        LivingEntity entity = pickupItemEvent.getEntity();
+        if (entity instanceof Player) {
+            checkLoginStatus((Player) entity, pickupItemEvent);
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
@@ -102,19 +109,18 @@ public class PreventListener implements Listener {
     }
 
     //this lookup have to be highly optimized, because events like the move event will call this very often
-    private boolean checkLoginStatus(Player player, Cancellable cancelEvent) {
+    private void checkLoginStatus(Player player, Cancellable cancelEvent) {
         //thread-safe
         if (plugin.isInSession(player) || plugin.getConfig().getBoolean("commandOnlyProtection")) {
-            return true;
+            return;
         }
 
         if (!plugin.getConfig().getBoolean("protectAll")
                 && !player.hasPermission(plugin.getName().toLowerCase() + ".protect") ) {
             //we don't need to protect this player
-            return true;
+            return;
         }
 
         cancelEvent.setCancelled(true);
-        return false;
     }
 }
