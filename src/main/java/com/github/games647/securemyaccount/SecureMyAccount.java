@@ -6,7 +6,6 @@ import com.github.games647.securemyaccount.listener.InventoryPinListener;
 import com.github.games647.securemyaccount.listener.PreventListener;
 import com.github.games647.securemyaccount.listener.SessionListener;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SecureMyAccount extends JavaPlugin {
 
     private final Set<UUID> sessions = Sets.newConcurrentHashSet();
-    private final Map<UUID, Account> cache = Maps.newConcurrentMap();
+    private final Map<UUID, Account> cache = new ConcurrentHashMap<>();
 
     private final TOTP totp = new TOTP();
 
@@ -71,28 +71,24 @@ public class SecureMyAccount extends JavaPlugin {
 
     //todo make async
     public Account getOrLoadAccount(Player player) {
-        UUID uniqueId = player.getUniqueId();
-        Account account = cache.get(uniqueId);
-        if (account == null) {
-            Path file = getDataFolder().toPath().resolve(uniqueId.toString());
+        return cache.computeIfAbsent(player.getUniqueId(), uuid -> {
+            Path file = getDataFolder().toPath().resolve(uuid.toString());
             if (Files.exists(file)) {
                 try {
                     List<String> lines = Files.readAllLines(file);
                     String secretCode = lines.get(0);
                     String ip = lines.get(1);
 
-                    account = new Account(uniqueId, secretCode, ip);
-                    cache.put(uniqueId, account);
+                    return new Account(uuid, secretCode, ip);
                 } catch (IOException ex) {
                     getLogger().log(Level.SEVERE, "Error loading account", ex);
                 }
             } else {
-                account = new Account(uniqueId);
-                cache.put(uniqueId, account);
+                return new Account(uuid);
             }
-        }
 
-        return account;
+            return null;
+        });
     }
 
     //todo make async

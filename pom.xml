@@ -9,7 +9,7 @@
 
     <name>SecureMyAccount</name>
     <version>0.3</version>
-    <inceptionYear>2016</inceptionYear>
+
     <url>https://dev.bukkit.org/bukkit-plugins/securemyaccount/</url>
     <description>
         Protect your user account with two factor authentication
@@ -33,11 +33,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>com.warrenstrange:googleauth</include>
-                        </includes>
-                    </artifactSet>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
                 <executions>
@@ -80,7 +75,7 @@
         <dependency>
             <groupId>com.warrenstrange</groupId>
             <artifactId>googleauth</artifactId>
-            <version>1.1.2</version>
+            <version>1.1.5</version>
         </dependency>
     </dependencies>
 </project>

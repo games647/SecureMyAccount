@@ -28,7 +28,7 @@ public class ImageDownloader implements Runnable {
             //download image
             BufferedImage resultImage = ImageIO.read(targetImage);
             //reschedule to the main thread to run non thread-safe methods
-            Bukkit.getScheduler().runTask(plugin, new MapGiver(plugin, player, resultImage));
+            Bukkit.getScheduler().runTask(plugin, new MapGiver(player, resultImage));
         } catch (IOException ex) {
             plugin.getLogger().log(Level.SEVERE, "Tried downloading image", ex);
         }

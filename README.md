@@ -50,13 +50,9 @@ For example:
 * [iOS](https://itunes.apple.com/de/app/id388497605)
 
 #### Duo Mobile
-* [Windows (Phone)](https://www.microsoft.com/en-us/store/apps/duo-mobile/9nblggh08m1g)
 * [iOS](https://itunes.apple.com/de/app/id422663827)
 * [Android](https://play.google.com/store/apps/details?id=com.duosecurity.duomobile)
 
 #### Authy
 * [iOS](https://itunes.apple.com/de/app/id494168017)
 * [Android](https://play.google.com/store/apps/details?id=com.authy.authy)
-
-#### Microsoft Authenticator
-* [Windows (Phone)](https://www.windowsphone.com/en-us/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b)

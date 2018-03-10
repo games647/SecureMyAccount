@@ -2,6 +2,8 @@
 
 ## 0.3
 
+* Upgrade to Java 8
+* Migrate to Java NIO files
 * Added pin inventory - easier login
 * Fixed Java 7 support
 * Added already login check
