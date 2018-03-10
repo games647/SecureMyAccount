@@ -1,12 +1,8 @@
 package com.github.games647.securemyaccount.commands;
 
 import com.github.games647.securemyaccount.Account;
-import com.github.games647.securemyaccount.ImageDownloader;
+import com.github.games647.securemyaccount.ImageGenerator;
 import com.github.games647.securemyaccount.SecureMyAccount;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,20 +47,13 @@ public class EnableCommand implements CommandExecutor {
             return;
         }
 
-        try {
-            String serverIp = plugin.getConfig().getString("serverIp");
-            if (serverIp.isEmpty()) {
-                serverIp = Bukkit.getIp();
-            }
-
-            URL barcodeUrl = new URL(plugin.getTotp().getQRBarcodeURL(player.getName(), serverIp, secretKey));
-
-            Runnable imageDownloader = new ImageDownloader(plugin, player, barcodeUrl);
-            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, imageDownloader);
-            player.sendMessage(ChatColor.DARK_GREEN + "Queued generation of your secret key");
-        } catch (MalformedURLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Tried creating barcode url", ex);
-            player.sendMessage(ChatColor.DARK_RED + "Error occurred while creating the image url");
+        String serverIp = plugin.getConfig().getString("serverIp");
+        if (serverIp.isEmpty()) {
+            serverIp = Bukkit.getIp();
         }
+
+        Runnable imageDownloader = new ImageGenerator(plugin, player, serverIp, secretKey);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, imageDownloader);
+        player.sendMessage(ChatColor.DARK_GREEN + "Queued generation of your secret key");
     }
 }
