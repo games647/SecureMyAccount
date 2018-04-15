@@ -46,14 +46,14 @@ securemyaccount.command.protect | Protected player accounts
 
 For example:
 
-#### Google Authenticator
-* [Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2)
-* [iOS](https://itunes.apple.com/de/app/id388497605)
+#### Free OTP
+* [Android](https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp)
+* [iOS](https://itunes.apple.com/us/app/freeotp-authenticator/id872559395)
 
 #### Duo Mobile
-* [iOS](https://itunes.apple.com/de/app/id422663827)
 * [Android](https://play.google.com/store/apps/details?id=com.duosecurity.duomobile)
+* [iOS](https://itunes.apple.com/de/app/id422663827)
 
 #### Authy
-* [iOS](https://itunes.apple.com/de/app/id494168017)
 * [Android](https://play.google.com/store/apps/details?id=com.authy.authy)
+* [iOS](https://itunes.apple.com/de/app/id494168017)
