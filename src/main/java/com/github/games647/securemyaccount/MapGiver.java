@@ -23,7 +23,7 @@ class MapGiver implements Runnable {
     public void run() {
         MapView createdView = installRenderer(player, resultImage);
         //stack count 0 prevents the item from being dropped
-        ItemStack mapItem = new ItemStack(Material.MAP, 0, createdView.getId());
+        ItemStack mapItem = new ItemStack(Material.MAP, 1, createdView.getId());
         player.getInventory().addItem(mapItem);
         player.sendMessage(ChatColor.DARK_GREEN + "Here is your secret code. Just scan it with your phone");
         player.sendMessage(ChatColor.DARK_GREEN + "Then drop it in order to remove it");

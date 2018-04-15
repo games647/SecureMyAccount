@@ -5,9 +5,9 @@
 # If this is empty the default server ip from the server.properties will be used
 serverIp: ''
 
-# If the player has the same ip as the previous successfull login
+# If the player has the same ip as the previous successful login
 # the player will be automatically logged in
-ipAutoLogin: true
+ipAutoLogin: false
 
 # If players can only login into their account if it's the same ip as the last time
 forceSampleIp: false

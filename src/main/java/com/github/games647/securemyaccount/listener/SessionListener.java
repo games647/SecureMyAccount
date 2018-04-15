@@ -1,15 +1,22 @@
 package com.github.games647.securemyaccount.listener;
 
 import com.github.games647.securemyaccount.Account;
+import com.github.games647.securemyaccount.ImageRenderer;
 import com.github.games647.securemyaccount.SecureMyAccount;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.map.MapView;
 
 public class SessionListener implements Listener {
 
@@ -39,6 +46,26 @@ public class SessionListener implements Listener {
                 player.performCommand("register");
             }
         }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
+    public void onDrop(PlayerDropItemEvent dropItemEvent) {
+        Item itemDrop = dropItemEvent.getItemDrop();
+        ItemStack mapItem = itemDrop.getItemStack();
+        if (isOurGraph(mapItem)) {
+            itemDrop.setItemStack(new ItemStack(Material.AIR));
+        }
+    }
+
+    private boolean isOurGraph(ItemStack mapItem) {
+        if (mapItem == null || mapItem.getType() != Material.MAP) {
+            return false;
+        }
+
+        short mapId = mapItem.getDurability();
+        MapView map = Bukkit.getMap(mapId);
+        return map != null && map.getRenderers().stream()
+                .anyMatch(ImageRenderer.class::isInstance);
     }
 
     @EventHandler

@@ -8,7 +8,7 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
-class ImageRenderer extends MapRenderer {
+public class ImageRenderer extends MapRenderer {
 
     private final UUID forPlayer;
     private BufferedImage image;
@@ -26,7 +26,7 @@ class ImageRenderer extends MapRenderer {
         //the image is just for the player who requested a new key
         if (image != null && player.getUniqueId().equals(forPlayer)) {
             canvas.drawImage(0, 0, image);
-            //release ressources in order to prevent memory leaks
+            //release resources in order to prevent memory leaks
             image = null;
         }
     }

@@ -12,19 +12,20 @@ computer. This process is also known as 2FA.
 
 ## Features
 
+* Many other plugins like this sends a clickable link to Google for the QR code. This plugin doesn't do that. 
+The code is generated rendered only on the server for increased privacy and security
 * Protect selected commands
 * Provides a better security to your server
 * Displays the QR code on a minecraft map
 * User friendly. Just scan the QR code with your smartphone!
 * A session will be valid for certain time period so you don't have to enter your password again.
 * No other plugins required
-* It's Free!
 
 ## Commands
 Command |  Description
 ----------------|--------------
 /register | Requests a new secret key
-/login <code> | Starts a new session to prove your identity
+/login < code > | Starts a new session to prove your identity
 
 ## Permissions
 Permission Node |  Description
@@ -35,13 +36,13 @@ securemyaccount.command.protect | Protected player accounts
 
 ## Images
 
-![Ingame map QR code](https://i.imgur.com/9YuekuK.png)
+![Ingame map QR code](https://i.imgur.com/9YuekuKl.png)
 ![App code generation](https://i.imgur.com/HWNR8SK.png)
-![inventory pin](https://i.imgur.com/JCmmMPO.png)
+![inventory pin](https://i.imgur.com/JCmmMPOm.png)
 
 ## Requirements
 
-2 Factor App on your smartphone.
+2 Factor App on your phone.
 
 For example:
 

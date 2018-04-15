@@ -13,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryPinListener implements Listener {
 
+    private static final int PIN_START = 29;
+    private static final int PIN_END = 36 - 1;
+
     private final SecureMyAccount plugin;
 
     public InventoryPinListener(SecureMyAccount plugin) {
@@ -57,7 +60,7 @@ public class InventoryPinListener implements Listener {
     }
 
     private int nextPinPos(Inventory inventory) {
-        for (int i = 29; i < 36 - 1; i++) {
+        for (int i = PIN_START; i < PIN_END; i++) {
             ItemStack item = inventory.getItem(i);
             if (item == null) {
                 return i;
@@ -68,7 +71,7 @@ public class InventoryPinListener implements Listener {
     }
 
     private void deleteLast(InventoryView inventory) {
-        for (int i = 34; i > 28; i--) {
+        for (int i = PIN_END - 1; i > PIN_START - 1; i--) {
             ItemStack item = inventory.getItem(i);
             if (item != null) {
                 inventory.setItem(i, null);
@@ -79,7 +82,7 @@ public class InventoryPinListener implements Listener {
 
     private void submitPin(Player player, Inventory inventory) {
         StringBuilder builder = new StringBuilder(6);
-        for (int i = 29; i < 35; i++) {
+        for (int i = PIN_START; i < PIN_END; i++) {
             ItemStack item = inventory.getItem(i);
             if (item != null) {
                 builder.append(item.getAmount());

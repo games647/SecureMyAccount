@@ -98,7 +98,7 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.beust</groupId>

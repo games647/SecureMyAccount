@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 public class ImageGenerator implements Runnable {
 
     private static final String PREFIX = "otpauth://totp/";
+    private static final int MINECRAFT_MAP_SIZE = 128;
 
     private final SecureMyAccount plugin;
     private final Player player;
@@ -36,7 +37,7 @@ public class ImageGenerator implements Runnable {
         try {
             //generate
             String contents = PREFIX + player.getName() + '@' + serverHost + "?secret=" + secret;
-            BitMatrix encode = qrWriter.encode(contents, BarcodeFormat.QR_CODE, 200, 200);
+            BitMatrix encode = qrWriter.encode(contents, BarcodeFormat.QR_CODE, MINECRAFT_MAP_SIZE, MINECRAFT_MAP_SIZE);
             BufferedImage resultImage = MatrixToImageWriter.toBufferedImage(encode);
 
             //reschedule to the main thread to run non thread-safe methods
