@@ -4,6 +4,8 @@ import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.ImageRenderer;
 import com.github.games647.securemyaccount.SecureMyAccount;
 
+import java.net.InetAddress;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,8 +36,8 @@ public class SessionListener implements Listener {
                 || player.hasPermission(plugin.getName().toLowerCase() + ".protect")) {
             Account account = plugin.getOrLoadAccount(player);
             if (account.isRegistered()) {
-                String newIp = player.getAddress().getHostString();
-                if (newIp.equals(account.getIp())) {
+                InetAddress newIp = player.getAddress().getAddress();
+                if (newIp.equals(account.getIP())) {
                     player.sendMessage(ChatColor.DARK_GREEN + "IP auto login");
                     plugin.startSession(player);
                 } else if (!plugin.getConfig().getBoolean("commandOnlyProtection")) {

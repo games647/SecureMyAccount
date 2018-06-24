@@ -1,7 +1,7 @@
 package com.github.games647.securemyaccount;
 
-import com.github.games647.securemyaccount.commands.EnableCommand;
-import com.github.games647.securemyaccount.commands.LoginCommand;
+import com.github.games647.securemyaccount.command.EnableCommand;
+import com.github.games647.securemyaccount.command.LoginCommand;
 import com.github.games647.securemyaccount.listener.InventoryPinListener;
 import com.github.games647.securemyaccount.listener.PreventListener;
 import com.github.games647.securemyaccount.listener.SessionListener;
@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -77,7 +79,13 @@ public class SecureMyAccount extends JavaPlugin {
                 try {
                     List<String> lines = Files.readAllLines(file);
                     String secretCode = lines.get(0);
-                    String ip = lines.get(1);
+
+                    InetAddress ip = null;
+                    try {
+                        ip = InetAddress.getByName(lines.get(1));
+                    } catch (UnknownHostException unknownHostEx) {
+                        getLogger().log(Level.WARNING, "Cannot parse account IP address", unknownHostEx);
+                    }
 
                     return new Account(uuid, secretCode, ip);
                 } catch (IOException ex) {
@@ -98,7 +106,7 @@ public class SecureMyAccount extends JavaPlugin {
         if (account != null) {
             Path file = getDataFolder().toPath().resolve(uniqueId.toString());
             try {
-                Files.write(file, Lists.newArrayList(account.getSecretCode(), account.getIp()));
+                Files.write(file, Lists.newArrayList(account.getSecretCode(), account.getIP().getHostAddress()));
                 return true;
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "Error saving account", ex);

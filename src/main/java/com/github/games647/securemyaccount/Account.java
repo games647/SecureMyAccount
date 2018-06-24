@@ -1,24 +1,25 @@
 package com.github.games647.securemyaccount;
 
+import java.net.InetAddress;
 import java.util.UUID;
 
 public class Account {
 
     private final UUID uuid;
     private String secretCode;
-    private String ip;
+    private InetAddress ip;
 
     public Account(UUID uuid) {
         this.uuid = uuid;
     }
 
-    public Account(UUID uuid, String secretCode, String ip) {
+    public Account(UUID uuid, String secretCode, InetAddress ip) {
         this.uuid = uuid;
         this.secretCode = secretCode;
         this.ip = ip;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 
@@ -34,11 +35,11 @@ public class Account {
         this.secretCode = secretCode;
     }
 
-    public String getIp() {
+    public InetAddress getIP() {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public void setIP(InetAddress ip) {
         this.ip = ip;
     }
 

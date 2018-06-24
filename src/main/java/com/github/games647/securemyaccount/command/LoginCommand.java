@@ -1,4 +1,4 @@
-package com.github.games647.securemyaccount.commands;
+package com.github.games647.securemyaccount.command;
 
 import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.SecureMyAccount;
@@ -60,7 +60,7 @@ public class LoginCommand implements CommandExecutor {
         }
 
         String newIp = player.getAddress().getHostString();
-        if (plugin.getConfig().getBoolean("forceSampleIp") && !account.getIp().equals(newIp)) {
+        if (plugin.getConfig().getBoolean("forceSampleIp") && !account.getIP().equals(newIp)) {
             player.sendMessage(ChatColor.DARK_RED + "You don't have the same IP as last time");
             return;
         }
@@ -74,7 +74,7 @@ public class LoginCommand implements CommandExecutor {
 
                 player.sendMessage(ChatColor.DARK_GREEN + "Accepted. You can continue");
 
-                account.setIp(player.getAddress().getHostString());
+                account.setIP(player.getAddress().getAddress());
                 plugin.saveAccount(player);
                 plugin.startSession(player);
             } else {

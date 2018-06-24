@@ -1,4 +1,4 @@
-package com.github.games647.securemyaccount.commands;
+package com.github.games647.securemyaccount.command;
 
 import com.github.games647.securemyaccount.Account;
 import com.github.games647.securemyaccount.ImageGenerator;
@@ -41,7 +41,7 @@ public class EnableCommand implements CommandExecutor {
 
         String secretKey = plugin.getTotp().generateSecretKey();
         account.setSecretCode(secretKey);
-        account.setIp(player.getAddress().getHostString());
+        account.setIP(player.getAddress().getAddress());
         if (!plugin.saveAccount(player)) {
             player.sendMessage(ChatColor.DARK_RED + "Error while saving your secret key");
             return;
