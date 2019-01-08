@@ -41,10 +41,27 @@ securemyaccount.command.protect | Protected player accounts
 
 ## Requirements
 
-2 Factor App on your phone.
+2 Factor App on your phone, desktop or offline (specialized hardware tokens).
 
-For example:
+### Apps (Open-Source only)
 
-#### Free OTP
-* [Android](https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp)
-* [iOS](https://itunes.apple.com/us/app/freeotp-authenticator/id872559395)
+IOS
+* Authenticator [AppStore](https://itunes.apple.com/us/app/authenticator/id766157276)
+* FreeOTP [AppStore](https://itunes.apple.com/us/app/freeotp-authenticator/id872559395)
+
+Android
+* andOTP [F-Droid](https://f-droid.org/en/packages/org.shadowice.flocke.andotp/)
+    [PlayStore](https://play.google.com/store/apps/details?id=org.shadowice.flocke.andotp)
+* Yubico Authenticator [F-Droid](https://play.google.com/store/apps/details?id=com.yubico.yubioath)
+    [PlayStore](https://play.google.com/store/apps/details?id=com.yubico.yubioath)
+    * Requires YubiKey hardware token
+* OnlyKey U2F [PlayStore](https://play.google.com/store/apps/details?id=to.crp.android.onlykeyu2f)
+    * Requires OnlyKey hardware token
+
+Desktop (Linux, Mac, Windows):
+* YubiKey Authenticator [Download](https://www.yubico.com/products/services-software/download/yubico-authenticator/)
+    * Requires YubiKey hardware token
+* NitroKey App [Download](https://www.nitrokey.com/download)
+    * Requires Nitrokey hardware token
+* OnlyKey App
+    * Requires OnlyKey hardware token
